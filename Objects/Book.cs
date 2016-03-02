@@ -67,6 +67,51 @@ namespace LibraryNameSpace
       return AllBooks;
     }
 
+    public static List<Book> SearchBooks(string searchBooks)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      List<Book> books = new List<Book>{};
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE title = @search", conn);
+
+      SqlParameter AuthorIdParameter = new SqlParameter();
+      AuthorIdParameter.ParameterName = "@search";
+      AuthorIdParameter.Value = searchBooks;
+
+      cmd.Parameters.Add(AuthorIdParameter);
+
+      rdr = cmd.ExecuteReader();
+
+      List<int> booksIds = new List<int> {};
+
+      int searchedBookId = 0;
+      string searchedTitle = null;
+
+
+      while(rdr.Read())
+      {
+        searchedBookId = rdr.GetInt32(0);
+        searchedTitle = rdr.GetString(1);
+
+        Book newBook = new Book(searchedTitle, searchedBookId);
+        books.Add(newBook);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return books;
+    }
+
     public void Save()
     {
       SqlConnection conn = DB.Connection();
@@ -189,6 +234,43 @@ namespace LibraryNameSpace
       SqlParameter bookIdParameter = new SqlParameter();
       bookIdParameter.ParameterName = "@BookId";
       bookIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(bookIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      int foundBookId = 0;
+      string foundBookTitle = null;
+
+
+      while(rdr.Read())
+      {
+        foundBookId = rdr.GetInt32(0);
+        foundBookTitle = rdr.GetString(1);
+
+      }
+      Book foundBook = new Book(foundBookTitle, foundBookId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundBook;
+    }
+
+    public static Book FindTitle(string title)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE title = @Booktitle", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@Booktitle";
+      bookIdParameter.Value = title.ToString();
+
       cmd.Parameters.Add(bookIdParameter);
       rdr = cmd.ExecuteReader();
 

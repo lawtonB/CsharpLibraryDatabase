@@ -62,6 +62,13 @@ namespace LibraryNameSpace
         return View["index.cshtml", allAuthors];
       };
 
+      Post["/bookList"] = _ => {
+        List<Book> foundBooks = Book.SearchBooks(Request.Form["Search"]);
+        // Console.WriteLine("request form search: " + Request.Form["Search"]);
+        // Book foundBook = new Book("hi", 3);
+        return View["searchedList.cshtml", foundBooks];
+      };
+
     }
   }
 }

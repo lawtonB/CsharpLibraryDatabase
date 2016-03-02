@@ -133,6 +133,29 @@ namespace LibraryNameSpace
 
   }
 
+  // [Fact]
+  // public void Test_Search_ReturnsAllSearchedBooks()
+  // {
+  //   //Arrange
+  //   Author testAuthor = new Author("Magic Johnson");
+  //   testAuthor.Save();
+  //
+  //   Book testBook1 = new Book("Math", 101);
+  //   testBook1.Save();
+  //
+  //   Book testBook2 = new Book("Gym", 101);
+  //   testBook2.Save();
+  //
+  //   //Act
+  //   testAuthor.AddBook(testBook1);
+  //   List<Book> result = Author.SearchBooks("Math");
+  //   List<Book> testList = new List<Book> {testBook1};
+  //
+  //   //Assert
+  //   Assert.Equal(testList, result);
+  //
+  // }
+
   public void Test_Delete_DeletesAuthorAssociationsFromDatabase()
   {
     //Arrange

@@ -221,6 +221,50 @@ namespace LibraryNameSpace
       return books;
     }
 
+    // public static Book SearchBooks(string searchBooks)
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   SqlDataReader rdr = null;
+    //   conn.Open();
+    //
+    //   // List<Book> books = new List<Book>{};
+    //
+    //   SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE title = @search", conn);
+    //
+    //   SqlParameter AuthorIdParameter = new SqlParameter();
+    //   AuthorIdParameter.ParameterName = "@search";
+    //   AuthorIdParameter.Value = searchBooks;
+    //
+    //   cmd.Parameters.Add(AuthorIdParameter);
+    //
+    //   rdr = cmd.ExecuteReader();
+    //
+    //   // List<int> booksIds = new List<int> {};
+    //   int foundBookId = 0;
+    //   string foundBookTitle = null;
+    //
+    //
+    //   while(rdr.Read())
+    //   {
+    //     int foundBookId = rdr.GetInt32(0);
+    //     string foundBookTitle = rdr.GetString(1);
+    //
+    //     Book newBook = new Book(booksName, booksId);
+    //
+    //     // books.Add(newBook);
+    //   }
+    //   if (rdr != null)
+    //   {
+    //     rdr.Close();
+    //   }
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    //
+    //   return newBook;
+    // }
+
     public void Update(string newAuthor_name)
     {
       SqlConnection conn = DB.Connection();

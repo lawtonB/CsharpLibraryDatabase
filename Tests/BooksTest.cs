@@ -126,6 +126,20 @@ namespace LibraryNameSpace
     }
 
     [Fact]
+    public void Test_Find_BookByTitle()
+    {
+      //Arrange
+      Book testBook = new Book("Moby Dick");
+      testBook.Save();
+
+      //Act
+      Book foundBook = Book.FindTitle(testBook.GetTitle());
+
+      //Assert
+      Assert.Equal(testBook, foundBook);
+    }
+
+    [Fact]
     public void Test_Update_UpdatesBookInDatabase()
     {
       //Arrange
