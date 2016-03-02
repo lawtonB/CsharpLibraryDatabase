@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>Library</h1>
-    
+
 <form action = "/" method = "post">
   <input name = "authorName"></input>
   <button>Submit Author</button>
@@ -14,7 +14,7 @@
 
 <ul>
 @foreach (var author in Model) {
-  <li>@author.GetAuthor_name()</li>
+  <li><a href="/authorbooks/@author.GetId()">@author.GetAuthor_name()</a></li>
 }
 </ul>
 

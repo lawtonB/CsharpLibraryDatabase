@@ -179,7 +179,18 @@ namespace LibraryNameSpace
 
       List<Book> books = new List<Book>{};
 
-      SqlCommand cmd = new SqlCommand("SELECT books.* FROM authors JOIN books_authors on (authors.id = books_authors.author_id) join books on (books_authors.book_id = books.id) where authors.id = @AuthorId", conn);
+      SqlCommand cmd = new SqlCommand("SELECT books.* FROM authors JOIN books_authors on (authors.id = books_authors.author_id) JOIN books on (books.id = books_authors.book_id) where authors.id = @AuthorId", conn);
+
+      //select from the books table
+      //get your targets from the authors table
+      //use the join table to bring these together
+      //specifically, on the join table where the real author id is equal to the join table author_id column Value
+      //then, come from the other side, the books table.  look in the join table where the real book id = the join table book_id column
+      //and do all of this based on teh authorID
+
+      //select books for the author.  first look on teh join table where the author id matches and grab all those books
+      // then look on the books table where it matches the author id
+
 
       SqlParameter AuthorIdParameter = new SqlParameter();
       AuthorIdParameter.ParameterName = "@AuthorId";

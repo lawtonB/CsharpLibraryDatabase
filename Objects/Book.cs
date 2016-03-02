@@ -144,13 +144,14 @@ namespace LibraryNameSpace
       SqlParameter TitleParameter = new SqlParameter();
       TitleParameter.ParameterName = "@Title";
       TitleParameter.Value = newBook_Title;
-      cmd.Parameters.Add(TitleParameter);
-
 
       SqlParameter BookIdParameter = new SqlParameter();
       BookIdParameter.ParameterName = "@BookId";
       BookIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(TitleParameter);
       cmd.Parameters.Add(BookIdParameter);
+
       rdr = cmd.ExecuteReader();
 
       while(rdr.Read())
