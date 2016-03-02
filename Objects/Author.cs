@@ -43,30 +43,30 @@ namespace LibraryNameSpace
       _author_name = newAuthor_name;
     }
 
-    // public void AddStudent(Student newStudent)
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("INSERT INTO books_author (author_id, books_id) VALUES (@AuthorId, @StudentId)", conn);
-    //
-    //   SqlParameter AuthorIdParameter = new SqlParameter();
-    //   AuthorIdParameter.ParameterName = "@AuthorId";
-    //   AuthorIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(AuthorIdParameter);
-    //
-    //   SqlParameter booksIdParameter = new SqlParameter();
-    //   booksIdParameter.ParameterName = "@StudentId";
-    //   booksIdParameter.Value = newStudent.GetId();
-    //   cmd.Parameters.Add(booksIdParameter);
-    //
-    //   cmd.ExecuteNonQuery();
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
+    public void AddBook(Book newBook)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO books_authors (author_id, book_id) VALUES (@AuthorId, @BookId)", conn);
+
+      SqlParameter AuthorIdParameter = new SqlParameter();
+      AuthorIdParameter.ParameterName = "@AuthorId";
+      AuthorIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(AuthorIdParameter);
+
+      SqlParameter booksIdParameter = new SqlParameter();
+      booksIdParameter.ParameterName = "@BookId";
+      booksIdParameter.Value = newBook.GetId();
+      cmd.Parameters.Add(booksIdParameter);
+
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
 
     public static List<Author> GetAll()
     {
@@ -171,44 +171,44 @@ namespace LibraryNameSpace
       return foundAuthor;
     }
 
-    // public List<Student> GetStudents()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   SqlDataReader rdr = null;
-    //   conn.Open();
-    //
-    //   List<Student> books = new List<Student>{};
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT books.* from authors join books_authors on (authors.id = books_author.author_id) join books on (books_author.books_id = bookss.id) where authors.id = @AuthorId;", conn);
-    //   SqlParameter AuthorIdParameter = new SqlParameter();
-    //
-    //   AuthorIdParameter.ParameterName = "@AuthorId";
-    //   AuthorIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(AuthorIdParameter);
-    //
-    //   rdr = cmd.ExecuteReader();
-    //
-    //   List<int> booksIds = new List<int> {};
-    //   while(rdr.Read())
-    //   {
-    //     int booksId = rdr.GetInt32(0);
-    //     string booksName = rdr.GetString(1);
-    //     DateTime booksEnrollDate = rdr.GetDateTime(2);
-    //     Student newStudent = new Student(booksName, booksEnrollDate, booksId);
-    //     bookss.Add(newStudent);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //
-    //
-    //   return books;
-    // }
+    public List<Book> GetBooks()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      List<Book> books = new List<Book>{};
+
+      SqlCommand cmd = new SqlCommand("SELECT books.* FROM authors JOIN books_authors on (authors.id = books_authors.author_id) join books on (books_authors.book_id = books.id) where authors.id = @AuthorId", conn);
+
+      SqlParameter AuthorIdParameter = new SqlParameter();
+      AuthorIdParameter.ParameterName = "@AuthorId";
+      AuthorIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(AuthorIdParameter);
+
+      rdr = cmd.ExecuteReader();
+
+      List<int> booksIds = new List<int> {};
+      while(rdr.Read())
+      {
+        int booksId = rdr.GetInt32(0);
+        string booksName = rdr.GetString(1);
+        Book newBook = new Book(booksName, booksId);
+        books.Add(newBook);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+
+      return books;
+    }
 
     public void Update(string newAuthor_name)
     {

@@ -13,51 +13,51 @@ namespace LibraryNameSpace
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=library_test;Integrated Security=SSPI;";
     }
 
-    // [Fact]
-    // public void Test_AddAuthor_AddsAuthorToBook()
-    // {
-    //   //Arrange
-    //   Book testBook = new Book("Moby Dick");
-    //   testBook.Save();
-    //
-    //   Author firstAuthor = new Author("Magic Johnson");
-    //   firstAuthor.Save();
-    //
-    //   Author secondAuthor = new Author("Magic James");
-    //   secondAuthor.Save();
-    //
-    //   //Act
-    //   testBook.AddAuthor(firstAuthor);
-    //   testBook.AddAuthor(secondAuthor);
-    //
-    //   List<Author> result = testBook.GetAuthors();
-    //   List<Author> testList = new List<Author>{firstAuthor, secondAuthor};
-    //
-    //   //Assert
-    //   Assert.Equal(testList, result);
-    // }
+    [Fact]
+    public void Test_AddAuthor_AddsAuthorToBook()
+    {
+      //Arrange
+      Book testBook = new Book("Moby Dick");
+      testBook.Save();
 
-    // [Fact]
-    // public void Test_GetAuthors_ReturnsAllBookAuthors()
-    // {
-    //   //Arrange
-    //   Book testBook = new Book("Moby Dick");
-    //   testBook.Save();
-    //
-    //   Author firstAuthor = new Author("Magic Johnson");
-    //   firstAuthor.Save();
-    //
-    //   Author secondAuthor = new Author("Magic James");
-    //   secondAuthor.Save();
-    //
-    //   //Act
-    //   testBook.AddAuthor(firstAuthor);
-    //   List<Author> savedAuthors = testBook.GetAuthors();
-    //   List<Author> testList = new List<Author> {firstAuthor};
-    //
-    //   //Assert
-    //   Assert.Equal(testList, savedAuthors);
-    // }
+      Author firstAuthor = new Author("Magic Johnson");
+      firstAuthor.Save();
+
+      Author secondAuthor = new Author("Magic James");
+      secondAuthor.Save();
+
+      //Act
+      testBook.AddAuthor(firstAuthor);
+      testBook.AddAuthor(secondAuthor);
+
+      List<Author> result = testBook.GetAuthors();
+      List<Author> testList = new List<Author>{firstAuthor, secondAuthor};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void Test_GetAuthors_ReturnsAllBookAuthors()
+    {
+      //Arrange
+      Book testBook = new Book("Moby Dick");
+      testBook.Save();
+
+      Author firstAuthor = new Author("Magic Johnson");
+      firstAuthor.Save();
+
+      Author secondAuthor = new Author("Magic James");
+      secondAuthor.Save();
+
+      //Act
+      testBook.AddAuthor(firstAuthor);
+      List<Author> savedAuthors = testBook.GetAuthors();
+      List<Author> testList = new List<Author> {firstAuthor};
+
+      //Assert
+      Assert.Equal(testList, savedAuthors);
+    }
     [Fact]
     public void Test_CategoriesEmptyAtFirst()
     {

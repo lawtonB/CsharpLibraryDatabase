@@ -105,7 +105,7 @@ namespace LibraryNameSpace
 
       List<Author> authors = new List<Author>{};
 
-      SqlCommand cmd = new SqlCommand("select authors.* from books join books_authors on (books.id = books_authors.book_id) join authors on (books_authors.author_id = authors.id) where books.id = @BookId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT authors.* from books join books_authors on (books.id = books_authors.book_id) join authors on (books_authors.author_id = authors.id) where books.id = @BookId;", conn);
 
       SqlParameter bookIdParameter = new SqlParameter();
       bookIdParameter.ParameterName = "@BookId";

@@ -86,80 +86,80 @@ namespace LibraryNameSpace
 
     }
 
-    // [Fact]
-    // public void Test_AddBook_AddsBookToAuthor()
-    // {
-    //   //Arrange
-    //   Author testAuthor =new Author("Magic Johnson");
-    //   testAuthor.Save();
-    //
-    //   Book testBook = new Book("Math", 101);
-    //   testBook.Save();
-    //
-    //   testAuthor.AddBook(testBook);
-    //
-    //   //Act
-    //   List<Book> result = testAuthor.GetBooks();
-    //
-    //   List<Book> testList = new List<Book>{testBook};
-    //
-    //   //Assert
-    //   Assert.Equal(testList, result);
-    //
+    [Fact]
+    public void Test_AddBook_AddsBookToAuthor()
+    {
+      //Arrange
+      Author testAuthor =new Author("Magic Johnson");
+      testAuthor.Save();
 
-    // }
+      Book testBook = new Book("Math", 101);
+      testBook.Save();
 
-  // [Fact]
-  // public void Test_GetBooks_ReturnsAllAuthorBooks()
-  // {
-  //   //Arrange
-  //   Author testAuthor = new Author("Magic Johnson");
-  //   testAuthor.Save();
-  //
-  //   Book testBook1 = new Book("Math", 101);
-  //   testBook1.Save();
-  //
-  //   Book testBook2 = new Book("Gym", 101);
-  //   testBook2.Save();
-  //
-  //   //Act
-  //   testAuthor.AddBook(testBook1);
-  //   List<Book> result = testAuthor.GetBooks();
-  //   List<Book> testList = new List<Book> {testBook1};
-  //
-  //   //Assert
-  //   Assert.Equal(testList, result);
-  //
+      testAuthor.AddBook(testBook);
 
-  // }
+      //Act
+      List<Book> result = testAuthor.GetBooks();
 
-  // public void Test_Delete_DeletesAuthorAssociationsFromDatabase()
-  // {
-  //   //Arrange
-  //   Book testBook = new Book("Math", 101);
-  //   testBook.Save();
-  //
-  //   Author testAuthor = new Author("Magic Johnson");
-  //   testAuthor.Save();
-  //
-  //   //Act
-  //   testAuthor.AddBook(testBook);
-  //   testAuthor.Delete();
-  //
-  //   List<Author> resultBookAuthors = testBook.GetAuthors();
-  //   List<Author> testBookAuthors = new List<Author> {};
-  //
-  //   //Assert
-  //   Assert.Equal(testBookAuthors, resultBookAuthors);
-  //
+      List<Book> testList = new List<Book>{testBook};
 
-  // }
+      //Assert
+      Assert.Equal(testList, result);
+
+
+    }
+
+  [Fact]
+  public void Test_GetBooks_ReturnsAllAuthorBooks()
+  {
+    //Arrange
+    Author testAuthor = new Author("Magic Johnson");
+    testAuthor.Save();
+
+    Book testBook1 = new Book("Math", 101);
+    testBook1.Save();
+
+    Book testBook2 = new Book("Gym", 101);
+    testBook2.Save();
+
+    //Act
+    testAuthor.AddBook(testBook1);
+    List<Book> result = testAuthor.GetBooks();
+    List<Book> testList = new List<Book> {testBook1};
+
+    //Assert
+    Assert.Equal(testList, result);
+
+
+  }
+
+  public void Test_Delete_DeletesAuthorAssociationsFromDatabase()
+  {
+    //Arrange
+    Book testBook = new Book("Math", 101);
+    testBook.Save();
+
+    Author testAuthor = new Author("Magic Johnson");
+    testAuthor.Save();
+
+    //Act
+    testAuthor.AddBook(testBook);
+    testAuthor.Delete();
+
+    List<Author> resultBookAuthors = testBook.GetAuthors();
+    List<Author> testBookAuthors = new List<Author> {};
+
+    //Assert
+    Assert.Equal(testBookAuthors, resultBookAuthors);
+
+
+  }
 
 
     public void Dispose()
     {
       Author.DeleteAll();
-      // Book.DeleteAll();
+      Book.DeleteAll();
     }
   }
 }
