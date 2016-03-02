@@ -1,238 +1,262 @@
-// using System.Collections.Generic;
-// using System.Data.SqlClient;
-// using System;
-//
-// namespace LibraryNameSpace
-// {
-//   public class Student
-//   {
-//     private int _id;
-//     private string _name;
-//     private DateTime _enrolldate;
-//
-//     public Student(string Name, DateTime enrollDate, int Id = 0)
-//     {
-//       _id = Id;
-//       _name = Name;
-//       _enrolldate = enrollDate;
-//     }
-//     public override bool Equals(System.Object otherStudent)
-//     {
-//         if (!(otherStudent is Student))
-//         {
-//           return false;
-//         }
-//         else {
-//           Student newStudent = (Student) otherStudent;
-//           bool idEquality = this.GetId() == newStudent.GetId();
-//           bool nameEquality = this.GetName() == newStudent.GetName();
-//           bool dateequality = this.GetDate() == newStudent.GetDate();
-//           return (idEquality && nameEquality && dateequality);
-//         }
-//     }
-//     public int GetId()
-//     {
-//       return _id;
-//     }
-//     public string GetName()
-//     {
-//       return _name;
-//     }
-//
-//     public DateTime GetDate()
-//     {
-//       return _enrolldate;
-//     }
-//
-//     public static List<Student> GetAll()
-//     {
-//       List<Student> AllStudents = new List<Student>{};
-//
-//       SqlConnection conn = DB.Connection();
-//       SqlDataReader rdr = null;
-//       conn.Open();
-//
-//       SqlCommand cmd = new SqlCommand("SELECT * FROM students", conn);
-//       rdr = cmd.ExecuteReader();
-//
-//       while(rdr.Read())
-//       {
-//         int studentId = rdr.GetInt32(0);
-//         string studentName = rdr.GetString(1);
-//         DateTime studentdate =rdr.GetDateTime(2);
-//         Student newStudent = new Student(studentName, studentdate, studentId);
-//         AllStudents.Add(newStudent);
-//       }
-//       if (rdr != null)
-//       {
-//         rdr.Close();
-//       }
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//       return AllStudents;
-//     }
-//
-//     public void Save()
-//     {
-//       SqlConnection conn = DB.Connection();
-//       SqlDataReader rdr;
-//       conn.Open();
-//
-//       SqlCommand cmd = new SqlCommand("INSERT INTO students (name, enroll_date) OUTPUT INSERTED.id VALUES (@StudentName, @StudentDate)", conn);
-//
-//       SqlParameter nameParameter = new SqlParameter();
-//       nameParameter.ParameterName = "@StudentName";
-//       nameParameter.Value = this.GetName();
-//
-//       SqlParameter dateParameter = new SqlParameter();
-//       dateParameter.ParameterName = "@StudentDate";
-//       dateParameter.Value = this.GetDate();
-//
-//       cmd.Parameters.Add(nameParameter);
-//       cmd.Parameters.Add(dateParameter);
-//
-//       rdr = cmd.ExecuteReader();
-//
-//       while(rdr.Read())
-//       {
-//         this._id = rdr.GetInt32(0);
-//       }
-//       if (rdr != null)
-//       {
-//         rdr.Close();
-//       }
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//     }
-//
-//     public List<Course> GetCourses()
-//     {
-//       SqlConnection conn = DB.Connection();
-//       SqlDataReader rdr = null;
-//       conn.Open();
-//
-//       List<Course> courses = new List<Course>{};
-//
-//       SqlCommand cmd = new SqlCommand("select courses.* from students join student_course on (students.id = student_course.student_id) join courses on (student_course.course_id = courses.id) where students.id = @StudentId;", conn);
-//
-//       SqlParameter studentIdParameter = new SqlParameter();
-//       studentIdParameter.ParameterName = "@StudentId";
-//       studentIdParameter.Value = this.GetId();
-//
-//       cmd.Parameters.Add(studentIdParameter);
-//
-//       rdr = cmd.ExecuteReader();
-//
-//       while (rdr.Read())
-//       {
-//         int courseId = rdr.GetInt32(0);
-//         string courseTitle = rdr.GetString(1);
-//         int courseNumber = rdr.GetInt32(2);
-//         Course newCourse = new Course(courseTitle, courseNumber, courseId);
-//         courses.Add(newCourse);
-//       }
-//       if (rdr != null)
-//       {
-//         rdr.Close();
-//       }
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//       return courses;
-//     }
-//
-//     public static void DeleteAll()
-//     {
-//       SqlConnection conn = DB.Connection();
-//       conn.Open();
-//       SqlCommand cmd = new SqlCommand("DELETE FROM students;", conn);
-//       cmd.ExecuteNonQuery();
-//     }
-//
-//     public static Student Find(int id)
-//     {
-//       SqlConnection conn = DB.Connection();
-//       SqlDataReader rdr = null;
-//       conn.Open();
-//
-//       SqlCommand cmd = new SqlCommand("SELECT * FROM students WHERE id = @StudentId", conn);
-//       SqlParameter studentIdParameter = new SqlParameter();
-//       studentIdParameter.ParameterName = "@StudentId";
-//       studentIdParameter.Value = id.ToString();
-//       cmd.Parameters.Add(studentIdParameter);
-//       rdr = cmd.ExecuteReader();
-//
-//       int foundStudentId = 0;
-//       string foundStudentName = null;
-//       DateTime founddate = new DateTime(1996-01-01);
-//
-//       while(rdr.Read())
-//       {
-//         foundStudentId = rdr.GetInt32(0);
-//         foundStudentName = rdr.GetString(1);
-//         founddate = rdr.GetDateTime(2);
-//       }
-//       Student foundStudent = new Student(foundStudentName, founddate, foundStudentId);
-//
-//       if (rdr != null)
-//       {
-//         rdr.Close();
-//       }
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//       return foundStudent;
-//     }
-//
-//     public void AddCourse(Course newCourse)
-//     {
-//       SqlConnection conn = DB.Connection();
-//       conn.Open();
-//
-//       SqlCommand cmd = new SqlCommand("INSERT INTO student_course (course_id, student_id) VALUES (@CourseId, @StudentId);", conn);
-//
-//       SqlParameter courseIdParameter = new SqlParameter();
-//       courseIdParameter.ParameterName = "@CourseId";
-//       courseIdParameter.Value = newCourse.GetId();
-//       cmd.Parameters.Add(courseIdParameter);
-//
-//       SqlParameter studentIdParameter = new SqlParameter();
-//       studentIdParameter.ParameterName = "@StudentId";
-//       studentIdParameter.Value = this.GetId();
-//       cmd.Parameters.Add(studentIdParameter);
-//
-//       cmd.ExecuteNonQuery();
-//
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//     }
-//
-//     public void Delete()
-//     {
-//       SqlConnection conn = DB.Connection();
-//       conn.Open();
-//
-//       SqlCommand cmd = new SqlCommand("DELETE FROM students WHERE id = @StudentId; DELETE FROM student_course WHERE student_id = @StudentId;", conn);
-//
-//       SqlParameter studentIdParameter = new SqlParameter();
-//       studentIdParameter.ParameterName = "@StudentId";
-//       studentIdParameter.Value = this.GetId();
-//
-//       cmd.Parameters.Add(studentIdParameter);
-//       cmd.ExecuteNonQuery();
-//
-//       if (conn != null)
-//       {
-//         conn.Close();
-//       }
-//     }
-//   }
-// }
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System;
+
+namespace LibraryNameSpace
+{
+  public class Book
+  {
+    private int _id;
+    private string _title;
+
+
+    public Book(string Title, int Id = 0)
+    {
+      _id = Id;
+      _title = Title;
+    }
+    public override bool Equals(System.Object otherBook)
+    {
+        if (!(otherBook is Book))
+        {
+          return false;
+        }
+        else {
+          Book newBook = (Book) otherBook;
+          bool idEquality = this.GetId() == newBook.GetId();
+          bool titleEquality = this.GetTitle() == newBook.GetTitle();
+          return (idEquality && titleEquality);
+        }
+    }
+    public int GetId()
+    {
+      return _id;
+    }
+    public string GetTitle()
+    {
+      return _title;
+    }
+
+
+    public static List<Book> GetAll()
+    {
+      List<Book> AllBooks = new List<Book>{};
+
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM books", conn);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int bookId = rdr.GetInt32(0);
+        string bookTitle = rdr.GetString(1);
+        Book newBook = new Book(bookTitle, bookId);
+        AllBooks.Add(newBook);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return AllBooks;
+    }
+
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO books (title) OUTPUT INSERTED.id VALUES (@BookTitle)", conn);
+
+      SqlParameter titleParameter = new SqlParameter();
+      titleParameter.ParameterName = "@BookTitle";
+      titleParameter.Value = this.GetTitle();
+
+      cmd.Parameters.Add(titleParameter);
+
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Author> GetAuthors()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      List<Author> authors = new List<Author>{};
+
+      SqlCommand cmd = new SqlCommand("select authors.* from books join books_authors on (books.id = books_authors.book_id) join authors on (books_authors.author_id = authors.id) where books.id = @BookId;", conn);
+
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@BookId";
+      bookIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(bookIdParameter);
+
+      rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        int authorId = rdr.GetInt32(0);
+        string authorTitle = rdr.GetString(1);
+        Author newAuthor = new Author(authorTitle, authorId);
+        authors.Add(newAuthor);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return authors;
+    }
+
+    public void Update(string newBook_Title)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE books SET title = @Title OUTPUT INSERTED.title WHERE id = @BookId;", conn);
+
+      SqlParameter TitleParameter = new SqlParameter();
+      TitleParameter.ParameterName = "@Title";
+      TitleParameter.Value = newBook_Title;
+      cmd.Parameters.Add(TitleParameter);
+
+
+      SqlParameter BookIdParameter = new SqlParameter();
+      BookIdParameter.ParameterName = "@BookId";
+      BookIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(BookIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._title = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM books;", conn);
+      cmd.ExecuteNonQuery();
+    }
+
+    public static Book Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE id = @BookId", conn);
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@BookId";
+      bookIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(bookIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      int foundBookId = 0;
+      string foundBookTitle = null;
+
+
+      while(rdr.Read())
+      {
+        foundBookId = rdr.GetInt32(0);
+        foundBookTitle = rdr.GetString(1);
+
+      }
+      Book foundBook = new Book(foundBookTitle, foundBookId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundBook;
+    }
+
+    public void AddAuthor(Author newAuthor)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO books_authors (author_id, book_id) VALUES (@Author_id, @Book_id);", conn);
+
+      SqlParameter authorIdParameter = new SqlParameter();
+      authorIdParameter.ParameterName = "@Author_id";
+      authorIdParameter.Value = newAuthor.GetId();
+      cmd.Parameters.Add(authorIdParameter);
+
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@Book_id";
+      bookIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(bookIdParameter);
+
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM books WHERE id = @Book_id; DELETE FROM books_authors WHERE book_id = @Book_id;", conn);
+
+      SqlParameter bookIdParameter = new SqlParameter();
+      bookIdParameter.ParameterName = "@Book_id";
+      bookIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(bookIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+  }
+}

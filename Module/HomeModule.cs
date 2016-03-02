@@ -13,6 +13,12 @@ namespace LibraryNameSpace
         List<Author> allAuthors = Author.GetAll();
         return View["index.cshtml", allAuthors];
       };
+      Post["/"] = _ => {
+        Author newAuthor = new Author(Request.Form["authorName"]);
+        newAuthor.Save();
+        List<Author> allAuthors = Author.GetAll();
+        return View["index.cshtml", allAuthors];
+      };
 
 
 
