@@ -221,6 +221,21 @@ namespace LibraryNameSpace
     }
 
     [Fact]
+    public void Test_Checked_Out_true()
+    {
+      //Arrange
+      Book testBook = new Book("moby dick", true);
+      testBook.Save();
+
+      Book testBook2 = new Book("moby dick", false);
+      testBook2.Save();
+      testBook2.CheckedOutUpdateTrue();
+
+      //Assert
+      Assert.Equal(testBook.GetCheckedOut(), testBook2.GetCheckedOut());
+    }
+
+    [Fact]
     public void Dispose()
     {
       Author.DeleteAll();

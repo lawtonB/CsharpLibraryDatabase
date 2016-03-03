@@ -1,3 +1,7 @@
-#crossedOut {
-  text-decoration: line-through;
+.checkedOut li {
+  color: red;
+}
+
+.checkedOut {
+  color: red;
 }

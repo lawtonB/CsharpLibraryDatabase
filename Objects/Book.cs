@@ -45,10 +45,9 @@ namespace LibraryNameSpace
       return _checked_out;
     }
 
-    public bool SetCheckedOut()
+    public bool SetCheckedOut(bool checked_out)
     {
-      _checked_out = false;
-      return _checked_out;
+      return checked_out;
     }
 
 
@@ -226,6 +225,68 @@ namespace LibraryNameSpace
       while(rdr.Read())
       {
         this._title = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void CheckedOutUpdateTrue()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE books SET checked_out = 1 OUTPUT INSERTED.checked_out WHERE id = @BookId;", conn);
+
+      SqlParameter newBookIdParameter = new SqlParameter();
+      newBookIdParameter.ParameterName = "@BookId";
+      newBookIdParameter.Value =  this.GetId();
+
+      cmd.Parameters.Add(newBookIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._checked_out = rdr.GetBoolean(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void CheckedOutUpdateFalse()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE books SET checked_out = 0 OUTPUT INSERTED.checked_out WHERE id = @BookId;", conn);
+
+      SqlParameter newBookIdParameter = new SqlParameter();
+      newBookIdParameter.ParameterName = "@BookId";
+      newBookIdParameter.Value =  this.GetId();
+
+      cmd.Parameters.Add(newBookIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._checked_out = rdr.GetBoolean(0);
       }
 
       if (rdr != null)

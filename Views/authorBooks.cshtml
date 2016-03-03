@@ -7,17 +7,38 @@
   <body>
     <h1>List of Books</h1>
 
+
+
     @foreach(var book in @Model["bookList"]){
+
+
       <li>@book.GetTitle()</li>
       <li>@book.GetCheckedOut()</li>
+
+      <form action ='/authorbooks/Checkout/@book.GetId()' method = "post">
+      <input type="hidden" name="_method" value="PATCH">
+      <button>Check Out</button>
+      </form>
+
+      <form action ='/authorbooks/Checkin/@book.GetId()' method = "post">
+      <input type="hidden" name="_method" value="PATCH">
+      <button>Check In</button>
+      </form>
+
       <li><a href="/edit/@book.GetId()">Edit</a></li>
       <li>
       <form action ='/authorbooks/delete/@book.GetId()' method = "post">
       <input type="hidden" name="_method" value="DELETE">
       <button>Delete</button>
       </form>
-</li>
-    }
+      </li>
+
+}
+
+
+
+
+
 
   <a href = '/addBook/@Model["author"].GetId()'>Add Book</a>
   <a href = '/'>Go Home</a>

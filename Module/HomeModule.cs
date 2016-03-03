@@ -69,6 +69,23 @@ namespace LibraryNameSpace
         return View["searchedList.cshtml", foundBooks];
       };
 
+      Patch["/authorbooks/Checkout/{id}"] = parameters => {
+        Book newBook = Book.Find(parameters.id);
+        newBook.CheckedOutUpdateTrue();
+        List<Author> allAuthors = Author.GetAll();
+        return View["index.cshtml", allAuthors];
+      };
+
+      Patch["/authorbooks/Checkin/{id}"] = parameters => {
+        Book newBook = Book.Find(parameters.id);
+        newBook.CheckedOutUpdateFalse();
+        List<Author> allAuthors = Author.GetAll();
+        return View["index.cshtml", allAuthors];
+      };
+
+
+
+
     }
   }
 }
