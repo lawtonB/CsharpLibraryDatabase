@@ -17,7 +17,7 @@ namespace LibraryNameSpace
     public void Test_AddAuthor_AddsAuthorToBook()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       Author firstAuthor = new Author("Magic Johnson");
@@ -41,7 +41,7 @@ namespace LibraryNameSpace
     public void Test_GetAuthors_ReturnsAllBookAuthors()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       Author firstAuthor = new Author("Magic Johnson");
@@ -72,9 +72,9 @@ namespace LibraryNameSpace
     public void Test_Equal_ReturnsTrueForSameName()
     {
       //Arrange, Act
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
 
-      Book secondBook = new Book("Moby Dick");
+      Book secondBook = new Book("Moby Dick", false);
 
       //Assert
       Assert.Equal(testBook, secondBook);
@@ -84,7 +84,7 @@ namespace LibraryNameSpace
     public void Test_Save_SavesBookToDatabase()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       //Act
@@ -99,7 +99,7 @@ namespace LibraryNameSpace
     public void Test_Save_AssignsIdToBookObject()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       //Act
@@ -115,7 +115,7 @@ namespace LibraryNameSpace
     public void Test_Find_FindsBookInDatabase()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       //Act
@@ -129,7 +129,7 @@ namespace LibraryNameSpace
     public void Test_Find_BookByTitle()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       //Act
@@ -144,7 +144,7 @@ namespace LibraryNameSpace
     {
       //Arrange
 
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
       string newName = "Work stuff";
 
@@ -161,7 +161,7 @@ namespace LibraryNameSpace
     public void Test_AddAuthor_AddsBookToAuthor()
     {
       //Arrange
-      Book testBook = new Book("Moby Dick");
+      Book testBook = new Book("Moby Dick", false);
       testBook.Save();
 
       Author secondAuthor = new Author("Magic Johnson");
@@ -185,7 +185,7 @@ namespace LibraryNameSpace
       testAuthor.Save();
 
       string testName = "Home stuff";
-      Book testBook = new Book(testName);
+      Book testBook = new Book(testName, false);
       testBook.Save();
 
       //Act
@@ -204,11 +204,11 @@ namespace LibraryNameSpace
     {
       //Arrange
       string name1 = "Soccer";
-      Book testBook1 = new Book(name1);
+      Book testBook1 = new Book(name1, false);
       testBook1.Save();
 
       string name2 = "Dancing";
-      Book testBook2 = new Book(name2);
+      Book testBook2 = new Book(name2, false);
       testBook2.Save();
 
       //Act

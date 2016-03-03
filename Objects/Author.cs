@@ -205,7 +205,9 @@ namespace LibraryNameSpace
       {
         int booksId = rdr.GetInt32(0);
         string booksName = rdr.GetString(1);
-        Book newBook = new Book(booksName, booksId);
+        bool Checked_out = rdr.GetBoolean(2);
+
+        Book newBook = new Book(booksName, Checked_out, booksId);
         books.Add(newBook);
       }
       if (rdr != null)

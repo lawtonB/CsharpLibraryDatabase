@@ -8,12 +8,14 @@ namespace LibraryNameSpace
   {
     private int _id;
     private string _title;
+    private bool _checked_out;
 
 
-    public Book(string Title, int Id = 0)
+    public Book(string Title, bool Checked_out, int Id = 0)
     {
       _id = Id;
       _title = Title;
+      _checked_out = Checked_out;
     }
     public override bool Equals(System.Object otherBook)
     {
@@ -25,7 +27,8 @@ namespace LibraryNameSpace
           Book newBook = (Book) otherBook;
           bool idEquality = this.GetId() == newBook.GetId();
           bool titleEquality = this.GetTitle() == newBook.GetTitle();
-          return (idEquality && titleEquality);
+          bool Checked_outEquality = this.GetCheckedOut() == newBook.GetCheckedOut();
+          return (idEquality && titleEquality && Checked_outEquality);
         }
     }
     public int GetId()
@@ -35,6 +38,17 @@ namespace LibraryNameSpace
     public string GetTitle()
     {
       return _title;
+    }
+
+    public bool GetCheckedOut()
+    {
+      return _checked_out;
+    }
+
+    public bool SetCheckedOut()
+    {
+      _checked_out = false;
+      return _checked_out;
     }
 
 
@@ -53,7 +67,8 @@ namespace LibraryNameSpace
       {
         int bookId = rdr.GetInt32(0);
         string bookTitle = rdr.GetString(1);
-        Book newBook = new Book(bookTitle, bookId);
+        bool Checked_out = rdr.GetBoolean(2);
+        Book newBook = new Book(bookTitle, Checked_out, bookId);
         AllBooks.Add(newBook);
       }
       if (rdr != null)
@@ -89,14 +104,17 @@ namespace LibraryNameSpace
 
       int searchedBookId = 0;
       string searchedTitle = null;
+      bool searchedChecked_out = false;
+
 
 
       while(rdr.Read())
       {
         searchedBookId = rdr.GetInt32(0);
         searchedTitle = rdr.GetString(1);
+        searchedChecked_out = rdr.GetBoolean(2);
 
-        Book newBook = new Book(searchedTitle, searchedBookId);
+        Book newBook = new Book(searchedTitle, searchedChecked_out, searchedBookId);
         books.Add(newBook);
       }
 
@@ -118,13 +136,19 @@ namespace LibraryNameSpace
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO books (title) OUTPUT INSERTED.id VALUES (@BookTitle)", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO books (title, checked_out) OUTPUT INSERTED.id VALUES (@BookTitle, @Checked_out)", conn);
 
       SqlParameter titleParameter = new SqlParameter();
       titleParameter.ParameterName = "@BookTitle";
       titleParameter.Value = this.GetTitle();
 
+      SqlParameter checkedOutParameter = new SqlParameter();
+      checkedOutParameter.ParameterName = "@Checked_out";
+      checkedOutParameter.Value = this.GetCheckedOut();
+
       cmd.Parameters.Add(titleParameter);
+      cmd.Parameters.Add(checkedOutParameter);
+
 
       rdr = cmd.ExecuteReader();
 
@@ -239,15 +263,16 @@ namespace LibraryNameSpace
 
       int foundBookId = 0;
       string foundBookTitle = null;
+      bool foundBookCheckedOut = false;
 
 
       while(rdr.Read())
       {
         foundBookId = rdr.GetInt32(0);
         foundBookTitle = rdr.GetString(1);
-
+        foundBookCheckedOut = rdr.GetBoolean(2);
       }
-      Book foundBook = new Book(foundBookTitle, foundBookId);
+      Book foundBook = new Book(foundBookTitle, foundBookCheckedOut, foundBookId);
 
       if (rdr != null)
       {
@@ -276,15 +301,16 @@ namespace LibraryNameSpace
 
       int foundBookId = 0;
       string foundBookTitle = null;
-
+      bool foundBookCheckedOut = false;
 
       while(rdr.Read())
       {
         foundBookId = rdr.GetInt32(0);
         foundBookTitle = rdr.GetString(1);
+        foundBookCheckedOut = rdr.GetBoolean(2);
 
       }
-      Book foundBook = new Book(foundBookTitle, foundBookId);
+      Book foundBook = new Book(foundBookTitle, foundBookCheckedOut, foundBookId);
 
       if (rdr != null)
       {

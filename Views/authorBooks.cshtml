@@ -9,6 +9,7 @@
 
     @foreach(var book in @Model["bookList"]){
       <li>@book.GetTitle()</li>
+      <li>@book.GetCheckedOut()</li>
       <li><a href="/edit/@book.GetId()">Edit</a></li>
       <li>
       <form action ='/authorbooks/delete/@book.GetId()' method = "post">

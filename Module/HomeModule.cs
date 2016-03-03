@@ -33,7 +33,7 @@ namespace LibraryNameSpace
       };
       Post["/authorbooks/{id}"] = parameters => {
         Author newAuthor = Author.Find(parameters.id);
-        Book newBook = new Book(Request.Form["bookName"]);
+        Book newBook = new Book(Request.Form["bookName"], false);
         newBook.Save();
         newAuthor.AddBook(newBook);
         Dictionary<string, object> newDictionary = new Dictionary<string, object>();

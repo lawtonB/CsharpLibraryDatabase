@@ -93,7 +93,7 @@ namespace LibraryNameSpace
       Author testAuthor =new Author("Magic Johnson");
       testAuthor.Save();
 
-      Book testBook = new Book("Math", 101);
+      Book testBook = new Book("Math", false);
       testBook.Save();
 
       testAuthor.AddBook(testBook);
@@ -116,10 +116,10 @@ namespace LibraryNameSpace
     Author testAuthor = new Author("Magic Johnson");
     testAuthor.Save();
 
-    Book testBook1 = new Book("Math", 101);
+    Book testBook1 = new Book("Math", false);
     testBook1.Save();
 
-    Book testBook2 = new Book("Gym", 101);
+    Book testBook2 = new Book("Gym", false);
     testBook2.Save();
 
     //Act
@@ -140,10 +140,10 @@ namespace LibraryNameSpace
   //   Author testAuthor = new Author("Magic Johnson");
   //   testAuthor.Save();
   //
-  //   Book testBook1 = new Book("Math", 101);
+  //   Book testBook1 = new Book("Math", false);
   //   testBook1.Save();
   //
-  //   Book testBook2 = new Book("Gym", 101);
+  //   Book testBook2 = new Book("Gym", false);
   //   testBook2.Save();
   //
   //   //Act
@@ -159,7 +159,7 @@ namespace LibraryNameSpace
   public void Test_Delete_DeletesAuthorAssociationsFromDatabase()
   {
     //Arrange
-    Book testBook = new Book("Math", 101);
+    Book testBook = new Book("Math", false);
     testBook.Save();
 
     Author testAuthor = new Author("Magic Johnson");
